@@ -1,7 +1,8 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <errno.h>
-#include <fcntl.h>  /* open() flags */
+// #include <fcntl.h>  /* open() flags */
+#include <asm/fcntl.h>
 
 #include <stdbool.h>  /* bool */
 
@@ -12,7 +13,7 @@
 #include "pledge_internal.h"
 
 // TODO: Find how to properly and libc-compatibly include the definition of O_LARGEFILE
-#define O_LARGEFILE 0400000
+// #define O_LARGEFILE 0400000
 
 // Opening paths read-only
 void append_rpath_filter(unsigned int scopes, struct sock_fprog* prog) {
@@ -147,9 +148,11 @@ void append_open_filter(unsigned int scopes, struct sock_fprog* prog) {
     _JEQ((may_rdwr  ? O_RDWR   : O_ACCMODE+1), THEN_TO(checkother), ELSE_TO(cleanup));  // jne rdwr   cleanup
 
     LABEL(checkother);  // check the other flag bits
+
     // if ((flags | permitted) == permitted) return SECCOMP_RET_ALLOW;
     _SET_A_TO_X();  // flags
     _OR(permitted_open_flags);
+    _AND(~O_CLOEXEC); //
     _RET_EQ(permitted_open_flags, SECCOMP_RET_ALLOW);
 
     LABEL(cleanup);

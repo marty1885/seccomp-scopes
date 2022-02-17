@@ -1,13 +1,13 @@
 ######################################################################
 # Compiler flags
 ######################################################################
-LDFLAGS= -static -lc -lgcc
+LDFLAGS= -lc -lgcc
 CFLAGS= -fPIC -g -O1 -I.
 
 ######################################################################
 # Pledge main library
 ######################################################################
-LIBRARY_OBJECTS = pledge.o pledge_dns.o pledge_inet.o pledge_path.o pledge_stdio.o
+LIBRARY_OBJECTS = pledge.o pledge_dns.o pledge_inet.o pledge_path.o pledge_stdio.o pledge_exec.o pledge_proc.o
 
 pledge.so: $(LIBRARY_OBJECTS)
 	$(LD) -shared -o $@ $^
@@ -36,14 +36,14 @@ test: $(TEST_BINARIES) badbpftest
 ######################################################################
 # Examples
 ######################################################################
-EXAMPLE_NAMES := cat
+EXAMPLE_NAMES := cat date
 EXAMPLE_BINARIES := $(EXAMPLE_NAMES:%=examples/%)
 EXAMPLE_LIBS := pledge.so
 
 example: $(EXAMPLE_BINARIES)
 
 examples/%: examples/%.o $(EXAMPLE_LIBS)
-	$(CC) -o $@ $(LDFLAGS) $^
+	$(CC) -o $@ $(LDFLAGS) -lbsd $^
 
 ######################################################################
 # Clean up

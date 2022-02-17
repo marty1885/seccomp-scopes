@@ -10,13 +10,15 @@ and mitigate the consequences of an attacker taking control of a process.
 
 Current implementation is like OpenBSD's `pledge()`.
 
-    // Open a bunch of files.
-    if (pledge("stdio", NONE) == -1) {
-        errx(1, "Could not pledge!");
-    }
-    // From now on only basic input and output on previously
-    // opened file descriptors are allowed, as well as acquiring
-    // anonymous virtual memory.
+```cpp
+// Open a bunch of files.
+if (pledge("stdio", NONE) == -1) {
+    errx(1, "Could not pledge!");
+}
+// From now on only basic input and output on previously
+// opened file descriptors are allowed, as well as acquiring
+// anonymous virtual memory.
+```
 
 Any attempt to do system calls outside the previously "pledged"
 functionality will not be permitted and signal `SIGSYS` to the

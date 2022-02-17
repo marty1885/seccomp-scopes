@@ -69,6 +69,8 @@ static void fill_filter(unsigned int scopes, struct sock_fprog* prog) {
   append_dpath_filter(scopes, prog);
   append_inet_filter(scopes, prog);
   append_dns_filter(scopes, prog);
+  append_proc_filter(scopes, prog);
+  append_exec_filter(scopes, prog);
 
   append_filter_suffix(prog);
 }
@@ -98,6 +100,10 @@ static int parse_promises(const char* promises, unsigned int* scope_flags) {
       flags |= SCOPE_DPATH;
     } else if (!strcmp(item, "inet")) {
       flags |= SCOPE_INET;
+    } else if (!strcmp(item, "fork")) {
+      flags |= SCOPE_PROC;
+    } else if (!strcmp(item, "exec")) {
+      flags |= SCOPE_EXEC;
 #ifndef __GLIBC__
     } else if (!strcmp(item, "dns_experimental")) {
       // DNS support is not supported on Glibc.

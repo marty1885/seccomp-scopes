@@ -6,3 +6,5 @@
 #define SCOPE_DPATH (1 << 4)
 #define SCOPE_INET  (1 << 5)
 #define SCOPE_DNS   (1 << 6)
+#define SCOPE_PROC  (1 << 7)
+#define SCOPE_EXEC  (1 << 8)
