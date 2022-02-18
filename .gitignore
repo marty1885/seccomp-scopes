@@ -10,4 +10,5 @@ tests/paths
 tests/bpfhelper
 tests/.throwaway-test-output
 examples/cat
+examples/date
 __pycache__

@@ -22,6 +22,8 @@
 # define ARCH_NR	AUDIT_ARCH_X86_64
 #elif defined(__ARM_EABI__)
 # define ARCH_NR        AUDIT_ARCH_ARM
+#elif defined(__aarch64__)
+# define ARCH_NR        AUDIT_ARCH_AARCH64
 #else
 # warning "Platform does not support seccomp filter yet"
 # define ARCH_NR	0

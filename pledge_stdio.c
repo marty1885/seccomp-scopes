@@ -66,7 +66,9 @@ void append_stdio_filter(unsigned int scopes, struct sock_fprog* prog) {
     _RET_EQ(__NR_fchdir,         SECCOMP_RET_ALLOW);
     _RET_EQ(__NR_ftruncate,      SECCOMP_RET_ALLOW);
     _RET_EQ(__NR_truncate,       SECCOMP_RET_ALLOW);
+#ifdef __NR_getdents
     _RET_EQ(__NR_getdents,       SECCOMP_RET_ALLOW);
+#endif
 #ifdef __NR_getdents64
     _RET_EQ(__NR_getdents64,     SECCOMP_RET_ALLOW);
 #endif
@@ -78,7 +80,9 @@ void append_stdio_filter(unsigned int scopes, struct sock_fprog* prog) {
     _RET_EQ(__NR_getppid,        SECCOMP_RET_ALLOW);
     _RET_EQ(__NR_getresgid,      SECCOMP_RET_ALLOW);
     _RET_EQ(__NR_getresuid,      SECCOMP_RET_ALLOW);
+#ifdef __NR_getrlimit
     _RET_EQ(__NR_getrlimit,      SECCOMP_RET_ALLOW);
+#endif
     _RET_EQ(__NR_getsid,         SECCOMP_RET_ALLOW);
     _RET_EQ(__NR_gettimeofday,   SECCOMP_RET_ALLOW);
     _RET_EQ(__NR_getuid,         SECCOMP_RET_ALLOW);
@@ -113,11 +117,18 @@ void append_stdio_filter(unsigned int scopes, struct sock_fprog* prog) {
     _RET_EQ(__NR_epoll_create1,  SECCOMP_RET_ALLOW);
     _RET_EQ(__NR_epoll_create,   SECCOMP_RET_ALLOW);
     _RET_EQ(__NR_epoll_ctl,      SECCOMP_RET_ALLOW);
+#ifdef __NR_epoll_ctl_oldl
     _RET_EQ(__NR_epoll_ctl_old,  SECCOMP_RET_ALLOW);
+#endif
     _RET_EQ(__NR_epoll_pwait2,   SECCOMP_RET_ALLOW);
     _RET_EQ(__NR_epoll_pwait,    SECCOMP_RET_ALLOW);
     _RET_EQ(__NR_poll,           SECCOMP_RET_ALLOW);
+#ifdef __NR_select
     _RET_EQ(__NR_select,         SECCOMP_RET_ALLOW);
+#endif
+#ifdef __NR_pselect6
+    _RET_EQ(__NR_pselect6,       SECCOMP_RET_ALLOW);
+#endif
 
     // io_uring
 #ifdef __NR_io_uring_setup
@@ -139,7 +150,13 @@ void append_stdio_filter(unsigned int scopes, struct sock_fprog* prog) {
     // Locks...?
     _RET_EQ(__NR_get_robust_list,SECCOMP_RET_ALLOW);
     _RET_EQ(__NR_set_robust_list,SECCOMP_RET_ALLOW);
+#ifdef __NR_arch_prctl
     _RET_EQ(__NR_arch_prctl,     SECCOMP_RET_ALLOW);
+#endif
+
+    // exit
+    _RET_EQ(__NR_exit,           SECCOMP_RET_ALLOW);
+    _RET_EQ(0x5e,     SECCOMP_RET_ALLOW);
   }
 }
 

@@ -152,7 +152,7 @@ void append_open_filter(unsigned int scopes, struct sock_fprog* prog) {
     // if ((flags | permitted) == permitted) return SECCOMP_RET_ALLOW;
     _SET_A_TO_X();  // flags
     _OR(permitted_open_flags);
-    _AND(~O_CLOEXEC); //
+    _AND(~O_CLOEXEC); // Ignore O_CLOEXEC since that flag does not matter
     _RET_EQ(permitted_open_flags, SECCOMP_RET_ALLOW);
 
     LABEL(cleanup);

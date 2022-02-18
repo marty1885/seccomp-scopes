@@ -13,7 +13,7 @@ void append_proc_filter(unsigned int scopes, struct sock_fprog* prog) {
     // Various fork system calls
     // TODO: This also prevents creation of new thread.
     _RET_EQ(__NR_vfork,          SECCOMP_RET_ALLOW);
-	_RET_EQ(__NR_clone,          SECCOMP_RET_ALLOW);
+    _RET_EQ(__NR_clone,          SECCOMP_RET_ALLOW);
     // Other process related syscalls
     _RET_EQ(__NR_kill,           SECCOMP_RET_ALLOW);
     _RET_EQ(__NR_getpriority,    SECCOMP_RET_ALLOW);
